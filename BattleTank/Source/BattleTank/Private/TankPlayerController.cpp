@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 
@@ -26,10 +27,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 		return;
 	}
 
+	
+	
 	FVector HitLocation;
 	if(GetSightRayHitLocation(HitLocation))
 	{
-		
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 
@@ -45,22 +48,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	{
 		if(GetLookVectorHitLocation(LookDirection, HitLocation))
 		{
-			
+			return true;
 		}
 	}
 
-	//this->GetPlayerViewPoint(aimPointLocation, aimRotator);
-	//const FVector StartTrace = aimPointLocation;
-	//const FVector Direction = aimRotator.Vector();
-	//const FVector EndTrace = StartTrace + Direction * 200;
-
-	////do trace
-	//FCollisionQueryParams TraceParams(FName(TEXT("AimTrace")), true, this);
-	//TraceParams.bTraceAsyncScene = true;
-	//TraceParams.bReturnPhysicalMaterial = true;
-
-	//FHitResult Hit(ForceInit);
-	//GetWorld()->LineTraceSingle(Hit, StartTrace, EndTrace, COLLISION_WEAPON, TraceParams);
 	return false;
 }
 
