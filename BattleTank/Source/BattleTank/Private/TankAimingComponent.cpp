@@ -39,12 +39,14 @@ void UTankAimingComponent::MoveBarrelTowardsTarget(FVector AimDirection)
 
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 {
+
 	if (!Barrel || !Turret) { return; }
 	auto TankName = GetOwner()->GetName();
 	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
-
+	
+	UE_LOG(LogTemp, Warning, TEXT("tank aims at something"));
 	if(UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		LaunchVelocity,
