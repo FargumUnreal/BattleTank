@@ -19,7 +19,7 @@ void ATankAIController::Tick(float deltaSeconds)
 	}
 
 	//fire if ready
-	GetControlledTank()->Fire();
+	//GetControlledTank()->Fire();
 }
 
 ATank* ATankAIController::GetControlledTank() const
