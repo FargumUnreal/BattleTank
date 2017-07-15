@@ -15,11 +15,14 @@ void ATankAIController::Tick(float deltaSeconds)
 	Super::Tick(deltaSeconds);
 	if(GetPlayerTank())
 	{
+		auto Result = MoveToActor(GetPlayerTank(), AcceptanceRadius);
+
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		//fire if ready
+		//GetControlledTank()->Fire();
 	}
 
-	//fire if ready
-	//GetControlledTank()->Fire();
+
 }
 
 ATank* ATankAIController::GetControlledTank() const

@@ -21,5 +21,7 @@ private:
 	void BeginPlay() override;
 	void Tick(float deltaSeconds);
 	ATank* GetPlayerTank() const;
+	//how close can ai tank get to player
+	float AcceptanceRadius = 3000;
 	
 };
