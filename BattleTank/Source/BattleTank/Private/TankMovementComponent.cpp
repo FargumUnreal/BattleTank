@@ -1,42 +1,39 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright FTO Consulting
 
 #include "BattleTank.h"
 #include "TankTrack.h"
 #include "TankMovementComponent.h"
 
-
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet)
-	{
-		return;
-	}
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::RequestDirectMove(const FVector &MoveVelocity, bool bForceMaxSpeed)
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
+	// No need to call Super as we're replacing the functionality
+
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
-	auto DotProduct = FVector::DotProduct(TankForward, AIForwardIntention);
-	IntendMoveForward(DotProduct);
+	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
 
-	auto CrossProduct = FVector::CrossProduct(TankForward,AIForwardIntention).Z;
-	IntendMoveLeft(CrossProduct);
-	
+	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+	IntendTurnRight(RightThrow);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
-void UTankMovementComponent::IntendMoveLeft(float Throw)
+void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	LeftTrack->SetThrottle(-Throw);
-	RightTrack->SetThrottle(Throw);
+	if (!ensure(LeftTrack && RightTrack)) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
 }
-
